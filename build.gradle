@@ -6,8 +6,16 @@ group = 'inga.springpropertyloader'
 version = '0.1.0'
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest {
         attributes "Main-Class": "inga.springpropertyloader.Main"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
 }
 
@@ -16,8 +24,10 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     implementation 'org.springframework:spring-beans:6.0.11'
     implementation 'org.yaml:snakeyaml:2.0'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

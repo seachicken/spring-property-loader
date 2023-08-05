@@ -1,18 +1,27 @@
 package inga.springpropertyloader;
 
-import org.springframework.core.io.FileSystemResource;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        var yamlLoader = new YamlLoader();
         Scanner scanner = new Scanner(System.in);
+        var mapper = new ObjectMapper();
+
         while (scanner.hasNextLine()) {
             String path = scanner.nextLine();
-            yamlLoader.setResources(new FileSystemResource(path));
-            var properties = yamlLoader.getProperties();
-            System.out.println(properties);
+            var properties = PropertyLoader
+                    .findLoader(Path.of(path))
+                    .getProperties();
+            try {
+                var json = mapper.writeValueAsString(properties);
+                System.out.println(json);
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException(e);
+            }
         }
     }
 }
