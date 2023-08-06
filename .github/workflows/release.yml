@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "spring-property-loader-*"
+permissions:
+  contents: write
 
 jobs:
   build:
