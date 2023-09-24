@@ -11,10 +11,12 @@ class PropertyLoaderTest {
     @Test
     void findPropertyPath() {
         var actual = PropertyLoader.findPropertyPaths(
-                getFixturesPath("spring-tutorials/spring-boot-modules/spring-boot-properties/src/main/java/com/baeldung/buildproperties/Application.java")
+                getFixturesPath("spring-tutorials/spring-boot-modules/spring-boot-properties")
         );
         assertThat(actual.stream().map(p -> Paths.get(System.getProperty("user.dir")).relativize(p)))
                 .containsExactly(
+                        Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/extra.properties"),
+                        Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/extra2.properties"),
                         Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/test/resources/additional-application-properties/application.properties"),
                         Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/test/resources/conversion.properties"),
                         Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/test/resources/configprops-test.properties"),

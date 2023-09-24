@@ -3,7 +3,6 @@ package inga.springpropertyloader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,27 +11,21 @@ public interface PropertyLoader {
     List<Map<String, Object>> getProperties();
 
     static List<Path> findPropertyPaths(Path path) {
-        Path currentPath = path.getParent();
-        while ((currentPath = currentPath.getParent()) != null) {
-            if (currentPath.getFileName().toString().equals("src")) {
-                try (var stream = Files.walk(currentPath)) {
-                    return stream
-                            .filter(p -> p.toFile().isFile())
-                            .filter(p -> {
-                                var v = p.getFileName().toString();
-                                return List.of("properties",
-                                                "yml",
-                                                "yaml"
-                                        )
-                                        .contains(v.substring(v.lastIndexOf('.') > 0 ? v.lastIndexOf('.') + 1 : 0));
-                            })
-                            .collect(Collectors.toList());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+        try (var stream = Files.walk(path)) {
+            return stream
+                    .filter(p -> p.toFile().isFile())
+                    .filter(p -> {
+                        var v = p.getFileName().toString();
+                        return List.of("properties",
+                                        "yml",
+                                        "yaml"
+                                )
+                                .contains(v.substring(v.lastIndexOf('.') > 0 ? v.lastIndexOf('.') + 1 : 0));
+                    })
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return Collections.emptyList();
     }
 
     static PropertyLoader findLoader(Path path) {
