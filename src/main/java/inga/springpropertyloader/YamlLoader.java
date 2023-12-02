@@ -4,24 +4,32 @@ import org.springframework.beans.factory.config.YamlProcessor;
 import org.springframework.core.io.FileSystemResource;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class YamlLoader implements PropertyLoader {
     private final Path path;
+    private final List<String> profileCandidates;
 
-    public YamlLoader(Path path) {
+    public YamlLoader(Path path, List<String> profileCandidates) {
         this.path = path;
+        this.profileCandidates = profileCandidates;
     }
 
     @Override
-    public List<Map<String, Object>> getProperties() {
+    public Map<String, Object> getProperties() {
         var processor = new YamlProcessor() {
-            public List<Map<String, Object>> getProperties() {
-                List<Map<String, Object>> result = new ArrayList<>();
-                process((properties, map) -> result.add(getFlattenedMap(map)));
-                return result;
+            public Map<String, Object> getProperties() {
+                AtomicReference<Map<String, Object>> result = new AtomicReference<>(new HashMap<>());
+                process((properties, map) -> {
+                    var onProfile = properties.getProperty("spring.config.activate.on-profile");
+                    if (onProfile == null || profileCandidates.isEmpty() || profileCandidates.contains(onProfile)) {
+                        result.set(getFlattenedMap(map));
+                    }
+                });
+                return result.get();
             }
         };
         processor.setResources(new FileSystemResource(path));

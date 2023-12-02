@@ -3,28 +3,36 @@ package inga.springpropertyloader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main {
-    private static final Map<Path, List<Map<String, Object>>> propertyPathCache = new HashMap<>();
+    private static final Map<Input, List<Map<String, Object>>> propertyPathCache = new HashMap<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         var mapper = new ObjectMapper();
 
         while (scanner.hasNextLine()) {
-            Path path = Path.of(scanner.nextLine());
+            Input input;
+            try {
+                input = mapper.readValue(scanner.nextLine(), Input.class);
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException(e);
+            }
             List<Map<String, Object>> properties;
-            if (propertyPathCache.containsKey(path)) {
-                properties = propertyPathCache.get(path);
+            if (propertyPathCache.containsKey(input)) {
+                properties = propertyPathCache.get(input);
             } else {
-                properties = PropertyLoader.findPropertyPaths(path)
+                properties = PropertyLoader.findPropertyPaths(input.from())
                         .stream()
-                        .flatMap(p -> PropertyLoader.findLoader(p).getProperties().stream())
+                        .map(p -> PropertyLoader.findLoader(p, input.profileCandidates())
+                                .getProperties())
                         .collect(Collectors.toList());
-                propertyPathCache.put(path, properties);
+                propertyPathCache.put(input, properties);
             }
             try {
                 var json = mapper.writeValueAsString(properties);

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public interface PropertyLoader {
-    List<Map<String, Object>> getProperties();
+    Map<String, Object> getProperties();
 
     static List<Path> findPropertyPaths(Path path) {
         try (var stream = Files.walk(path)) {
@@ -28,14 +28,14 @@ public interface PropertyLoader {
         }
     }
 
-    static PropertyLoader findLoader(Path path) {
+    static PropertyLoader findLoader(Path path, List<String> profileCandidates) {
         var lastIndex = path.getFileName().toString().lastIndexOf('.');
         if (lastIndex <= 0) {
             throw new IllegalArgumentException("no file extension");
         }
         return switch (path.getFileName().toString().substring(lastIndex + 1)) {
             case "properties" -> new PropertiesLoader(path);
-            case "yml", "yaml" -> new YamlLoader(path);
+            case "yml", "yaml" -> new YamlLoader(path, profileCandidates);
             default -> throw new IllegalArgumentException("unsupported file extension");
         };
     }

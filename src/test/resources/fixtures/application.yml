@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active:
+      - dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+a: value-1
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+a: value-2
