@@ -11,7 +11,7 @@ class PropertyLoaderTest {
     @Test
     void findPropertyPath() {
         var actual = PropertyLoader.findPropertyPaths(
-                getFixturesPath("spring-tutorials/spring-boot-modules/spring-boot-properties")
+                TestHelper.getFixturesPath("spring-tutorials/spring-boot-modules/spring-boot-properties")
         );
         assertThat(actual.stream().map(p -> Paths.get(System.getProperty("user.dir")).relativize(p)))
                 .containsExactly(
@@ -38,9 +38,5 @@ class PropertyLoaderTest {
                         Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/main/resources/build.yml"),
                         Path.of("build/resources/test/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/main/resources/database.properties")
                 );
-    }
-
-    private Path getFixturesPath(String path) {
-        return Path.of(getClass().getClassLoader().getResource("fixtures/" + path).getFile());
     }
 }
