@@ -10,15 +10,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PropertiesLoaderTest {
     @Test
     void getProperties() {
-        var actual = new PropertiesLoader(readFile("application.properties"))
+        var actual = new PropertiesLoader(getFixturesPath(
+                "spring-tutorials/spring-boot-modules/spring-boot-properties/src/main/resources/foo.properties"))
                 .getProperties();
         assertThat(actual).containsExactly(Map.of(
-                "a", "1",
-                "a.b", "2"
+                "key.something", "val"
         ));
     }
 
-    private Path readFile(String path) {
+    private Path getFixturesPath(String path) {
         return Path.of(getClass().getClassLoader().getResource("fixtures/" + path).getFile());
     }
 }
