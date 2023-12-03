@@ -24,8 +24,11 @@ public class YamlLoader implements PropertyLoader {
             public Map<String, Object> getProperties() {
                 AtomicReference<Map<String, Object>> result = new AtomicReference<>(new HashMap<>());
                 process((properties, map) -> {
-                    var onProfile = properties.getProperty("spring.config.activate.on-profile");
-                    if (onProfile == null || profileCandidates.isEmpty() || profileCandidates.contains(onProfile)) {
+                    var profiles = properties.getProperty("spring.config.activate.on-profile");
+                    if (profiles == null) {
+                        profiles = properties.getProperty("spring.profiles");
+                    }
+                    if (profiles == null || profileCandidates.isEmpty() || profileCandidates.contains(profiles)) {
                         result.set(getFlattenedMap(map));
                     }
                 });

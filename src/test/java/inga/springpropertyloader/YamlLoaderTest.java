@@ -1,5 +1,6 @@
 package inga.springpropertyloader;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -9,23 +10,69 @@ import java.util.Map;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class YamlLoaderTest {
-    @Test
-    void getPropertiesWhenProdProfile() {
-        var actual = new YamlLoader(TestHelper.getFixturesPath("application.yml"), List.of("prod"))
-                .getProperties();
-        assertThat(actual).isEqualTo(Map.of(
-                "spring.config.activate.on-profile", "prod",
-                "a", "value-2"
-        ));
+    @Nested
+    class OnProfileYaml {
+        @Test
+        void getPropertiesWhenDevProfile() {
+            var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), List.of("dev"))
+                    .getProperties();
+            assertThat(actual).isEqualTo(Map.of(
+                    "spring.config.activate.on-profile", "dev",
+                    "a", "value-1"
+            ));
+        }
+
+        @Test
+        void getPropertiesWhenProdProfile() {
+            var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), List.of("prod"))
+                    .getProperties();
+            assertThat(actual).isEqualTo(Map.of(
+                    "spring.config.activate.on-profile", "prod",
+                    "a", "value-2"
+            ));
+        }
+
+        @Test
+        void getPropertiesWhenDefaultProfile() {
+            var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), Collections.emptyList())
+                    .getProperties();
+            assertThat(actual).isEqualTo(Map.of(
+                    "spring.config.activate.on-profile", "prod",
+                    "a", "value-2"
+            ));
+        }
     }
 
-    @Test
-    void getPropertiesWhenDefaultProfile() {
-        var actual = new YamlLoader(TestHelper.getFixturesPath("application.yml"), Collections.emptyList())
-                .getProperties();
-        assertThat(actual).isEqualTo(Map.of(
-                "spring.config.activate.on-profile", "prod",
-                "a", "value-2"
-        ));
+    @Nested
+    class ProfilesYaml {
+        @Test
+        void getPropertiesWhenDevProfile() {
+            var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), List.of("dev"))
+                    .getProperties();
+            assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles", "dev",
+                    "a", "value-1"
+            ));
+        }
+
+        @Test
+        void getPropertiesWhenProdProfile() {
+            var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), List.of("prod"))
+                    .getProperties();
+            assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles", "prod",
+                    "a", "value-2"
+            ));
+        }
+
+        @Test
+        void getPropertiesWhenDefaultProfile() {
+            var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), Collections.emptyList())
+                    .getProperties();
+            assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles", "prod",
+                    "a", "value-2"
+            ));
+        }
     }
 }

@@ -1,0 +1,15 @@
+# https://docs.spring.io/spring-boot/docs/1.2.0.M1/reference/html/howto-properties-and-configuration.html#howto-change-configuration-depending-on-the-environment
+spring:
+  profiles:
+    active:
+      - dev
+
+---
+spring:
+  profiles: dev
+a: value-1
+
+---
+spring:
+  profiles: prod
+a: value-2
