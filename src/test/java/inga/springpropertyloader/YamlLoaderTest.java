@@ -14,7 +14,7 @@ class YamlLoaderTest {
     class OnProfileYaml {
         @Test
         void getPropertiesWithDevProfile() {
-            var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), List.of("dev"))
+            var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-on-profile/application.yml"), List.of("dev"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "spring.config.activate.on-profile", "dev",
@@ -24,7 +24,7 @@ class YamlLoaderTest {
 
         @Test
         void getPropertiesWithProdProfile() {
-            var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), List.of("prod"))
+            var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-on-profile/application.yml"), List.of("prod"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "spring.config.activate.on-profile", "prod",
@@ -34,7 +34,7 @@ class YamlLoaderTest {
 
         @Test
         void getPropertiesWithDefaultProfile() {
-            var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), Collections.emptyList())
+            var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-on-profile/application.yml"), Collections.emptyList())
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "spring.config.activate.on-profile", "prod",
@@ -47,7 +47,7 @@ class YamlLoaderTest {
     class ProfilesYaml {
         @Test
         void getPropertiesWithDevProfile() {
-            var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), List.of("dev"))
+            var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-profiles/application.yml"), List.of("dev"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "spring.profiles", "dev",
@@ -57,7 +57,7 @@ class YamlLoaderTest {
 
         @Test
         void getPropertiesWithProdProfile() {
-            var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), List.of("prod"))
+            var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-profiles/application.yml"), List.of("prod"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "spring.profiles", "prod",
@@ -67,7 +67,7 @@ class YamlLoaderTest {
 
         @Test
         void getPropertiesWithDefaultProfile() {
-            var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), Collections.emptyList())
+            var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-profiles/application.yml"), Collections.emptyList())
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "spring.profiles", "prod",
