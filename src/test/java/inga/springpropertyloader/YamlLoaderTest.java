@@ -13,7 +13,7 @@ class YamlLoaderTest {
     @Nested
     class OnProfileYaml {
         @Test
-        void getPropertiesWhenDevProfile() {
+        void getPropertiesWithDevProfile() {
             var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), List.of("dev"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
@@ -23,7 +23,7 @@ class YamlLoaderTest {
         }
 
         @Test
-        void getPropertiesWhenProdProfile() {
+        void getPropertiesWithProdProfile() {
             var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), List.of("prod"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
@@ -33,7 +33,7 @@ class YamlLoaderTest {
         }
 
         @Test
-        void getPropertiesWhenDefaultProfile() {
+        void getPropertiesWithDefaultProfile() {
             var actual = new YamlLoader(TestHelper.getFixturesPath("application-on-profile.yml"), Collections.emptyList())
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
@@ -46,7 +46,7 @@ class YamlLoaderTest {
     @Nested
     class ProfilesYaml {
         @Test
-        void getPropertiesWhenDevProfile() {
+        void getPropertiesWithDevProfile() {
             var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), List.of("dev"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
@@ -56,7 +56,7 @@ class YamlLoaderTest {
         }
 
         @Test
-        void getPropertiesWhenProdProfile() {
+        void getPropertiesWithProdProfile() {
             var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), List.of("prod"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
@@ -66,7 +66,7 @@ class YamlLoaderTest {
         }
 
         @Test
-        void getPropertiesWhenDefaultProfile() {
+        void getPropertiesWithDefaultProfile() {
             var actual = new YamlLoader(TestHelper.getFixturesPath("application-profiles.yml"), Collections.emptyList())
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
