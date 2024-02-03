@@ -1,0 +1,4 @@
+spring.config.import:
+  - classpath:/test/fixtures/yaml-imports-flat/a.yml
+  - classpath:/test/fixtures/yaml-imports-flat/b.yml
+a: value-0

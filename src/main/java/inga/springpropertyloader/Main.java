@@ -3,10 +3,7 @@ package inga.springpropertyloader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -27,10 +24,9 @@ public class Main {
             if (propertyPathCache.containsKey(input)) {
                 properties = propertyPathCache.get(input);
             } else {
-                properties = PropertyLoader.findPropertyPaths(input.from())
+                properties = PropertyLoader.findPropertyPaths(input.from(), input.profileCandidates())
                         .stream()
-                        .map(p -> PropertyLoader.findLoader(p, input.profileCandidates())
-                                .getProperties())
+                        .map(p -> PropertyLoader.findLoader(p, input.profileCandidates()).getProperties())
                         .collect(Collectors.toList());
                 propertyPathCache.put(input, properties);
             }

@@ -5,12 +5,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public interface PropertyLoader {
     Map<String, Object> getProperties();
 
-    static List<Path> findPropertyPaths(Path path) {
+    Pattern applicationPattern = Pattern.compile("^application\\..+$");
+    Pattern profileSuffixPattern = Pattern.compile("^application-(.+?)\\..+$");
+
+    static List<Path> findPropertyPaths(Path path, List<String> profileCandidates) {
         try (var stream = Files.walk(path)) {
             return stream
                     .filter(p -> p.toFile().isFile())
@@ -21,6 +25,11 @@ public interface PropertyLoader {
                                         "yaml"
                                 )
                                 .contains(v.substring(v.lastIndexOf('.') > 0 ? v.lastIndexOf('.') + 1 : 0));
+                    })
+                    .filter(p -> {
+                        var suffixMatcher = profileSuffixPattern.matcher(p.getFileName().toString());
+                        return applicationPattern.matcher(p.getFileName().toString()).matches()
+                                || (suffixMatcher.matches() && profileCandidates.contains(suffixMatcher.group(1)));
                     })
                     .collect(Collectors.toList());
         } catch (IOException e) {
