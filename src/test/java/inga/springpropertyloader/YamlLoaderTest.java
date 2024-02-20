@@ -17,6 +17,7 @@ class YamlLoaderTest {
             var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-on-profile/application.yml"), List.of("dev"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles.active[0]", "dev",
                     "spring.config.activate.on-profile", "dev",
                     "a", "value-1"
             ));
@@ -27,6 +28,7 @@ class YamlLoaderTest {
             var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-on-profile/application.yml"), List.of("prod"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles.active[0]", "dev",
                     "spring.config.activate.on-profile", "prod",
                     "a", "value-2"
             ));
@@ -37,6 +39,7 @@ class YamlLoaderTest {
             var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-on-profile/application.yml"), Collections.emptyList())
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles.active[0]", "dev",
                     "spring.config.activate.on-profile", "prod",
                     "a", "value-2"
             ));
@@ -50,6 +53,7 @@ class YamlLoaderTest {
             var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-profiles/application.yml"), List.of("dev"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles.active[0]", "dev",
                     "spring.profiles", "dev",
                     "a", "value-1"
             ));
@@ -60,6 +64,7 @@ class YamlLoaderTest {
             var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-profiles/application.yml"), List.of("prod"))
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles.active[0]", "dev",
                     "spring.profiles", "prod",
                     "a", "value-2"
             ));
@@ -70,6 +75,7 @@ class YamlLoaderTest {
             var actual = new YamlLoader(TestHelper.getFixturesPath("yaml-profiles/application.yml"), Collections.emptyList())
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
+                    "spring.profiles.active[0]", "dev",
                     "spring.profiles", "prod",
                     "a", "value-2"
             ));

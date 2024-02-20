@@ -31,7 +31,7 @@ public class YamlLoader implements PropertyLoader {
                         profile = properties.getProperty("spring.profiles");
                     }
                     if (profile == null || profileCandidates.isEmpty() || profileCandidates.contains(profile)) {
-                        result.set(getFlattenedMap(map));
+                        result.get().putAll(getFlattenedMap(map));
                     }
 
                     for (var importPath : YamlLoader.this.getProperties("spring.config.import", properties)) {
