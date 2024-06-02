@@ -6,9 +6,14 @@ import java.util.List;
 
 public record Input(
         Path from,
+        List<String> profiles,
+        @Deprecated
         List<String> profileCandidates
 ) {
     public Input {
-        profileCandidates = profileCandidates == null ? Collections.emptyList() : profileCandidates;
+        profiles = profiles == null ? Collections.emptyList() : profiles;
+        if (profiles.isEmpty()) {
+            profiles = profileCandidates == null ? Collections.emptyList() : profileCandidates;
+        }
     }
 }

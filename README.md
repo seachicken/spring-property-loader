@@ -17,13 +17,13 @@ spring-property-loader listens on `stdin` and writes messages back to `stdout`.
 **stdin:**
 
 ```json
-{"from":"./your/spring-module/root-path","profileCandidates":["prod"]}
+{"from":"./your/spring-module/root-path","profiles":["prod"]}
 ```
 
 | Key | Requirement | Description |
 | ---- | ----------- | ----------- |
 | `from` | required | Path of spring project to be retrieved |
-| `profileCandidates` | optional | Filter the profiles to be retrieved |
+| `profiles` | optional | Filter the profiles to be retrieved |
 
 **stdout:**
 

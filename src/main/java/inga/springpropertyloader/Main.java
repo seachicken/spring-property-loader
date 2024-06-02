@@ -24,9 +24,9 @@ public class Main {
             if (propertyPathCache.containsKey(input)) {
                 properties = propertyPathCache.get(input);
             } else {
-                properties = PropertyLoader.findPropertyPaths(input.from(), input.profileCandidates())
+                properties = PropertyLoader.findPropertyPaths(input.from(), input.profiles())
                         .stream()
-                        .map(p -> PropertyLoader.findLoader(p, input.profileCandidates()).getProperties())
+                        .map(p -> PropertyLoader.findLoader(p, input.profiles()).getProperties())
                         .collect(Collectors.toList());
                 propertyPathCache.put(input, properties);
             }

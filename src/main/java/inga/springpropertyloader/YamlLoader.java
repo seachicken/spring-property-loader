@@ -10,14 +10,14 @@ import java.util.regex.Pattern;
 
 public class YamlLoader implements PropertyLoader {
     private final Path path;
-    private final List<String> profileCandidates;
+    private final List<String> profiles;
     private final Pattern importPathPattern = Pattern.compile("^classpath:(.+)$");
     private final Pattern resourcesPathPattern = Pattern.compile("^(.+/resources/).+$");
     private final Pattern propertyListPattern = Pattern.compile("^(.+)\\[[0-9]*\\]$");
 
-    public YamlLoader(Path path, List<String> profileCandidates) {
+    public YamlLoader(Path path, List<String> profiles) {
         this.path = path;
-        this.profileCandidates = profileCandidates;
+        this.profiles = profiles;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class YamlLoader implements PropertyLoader {
                     if (profile == null) {
                         profile = properties.getProperty("spring.profiles");
                     }
-                    if (profile == null || profileCandidates.isEmpty() || profileCandidates.contains(profile)) {
+                    if (profile == null || profiles.isEmpty() || profiles.contains(profile)) {
                         result.get().putAll(getFlattenedMap(map));
                     }
 
@@ -39,7 +39,7 @@ public class YamlLoader implements PropertyLoader {
                         var resourcesMatcher = resourcesPathPattern.matcher(YamlLoader.this.path.toString());
                         if (matcher.matches() && resourcesMatcher.matches()) {
                             result.get().putAll(
-                                    new YamlLoader(Path.of(resourcesMatcher.group(1) + matcher.group(1)), YamlLoader.this.profileCandidates)
+                                    new YamlLoader(Path.of(resourcesMatcher.group(1) + matcher.group(1)), YamlLoader.this.profiles)
                                             .getProperties());
                         }
                     }

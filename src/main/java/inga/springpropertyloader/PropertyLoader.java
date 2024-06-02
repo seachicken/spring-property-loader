@@ -14,7 +14,7 @@ public interface PropertyLoader {
     Pattern applicationPattern = Pattern.compile("^application\\..+$");
     Pattern profileSuffixPattern = Pattern.compile("^application-(.+?)\\..+$");
 
-    static List<Path> findPropertyPaths(Path path, List<String> profileCandidates) {
+    static List<Path> findPropertyPaths(Path path, List<String> profiles) {
         try (var stream = Files.walk(path)) {
             return stream
                     .filter(p -> p.toFile().isFile())
@@ -29,7 +29,7 @@ public interface PropertyLoader {
                     .filter(p -> {
                         var suffixMatcher = profileSuffixPattern.matcher(p.getFileName().toString());
                         return applicationPattern.matcher(p.getFileName().toString()).matches()
-                                || (suffixMatcher.matches() && profileCandidates.contains(suffixMatcher.group(1)));
+                                || (suffixMatcher.matches() && profiles.contains(suffixMatcher.group(1)));
                     })
                     .collect(Collectors.toList());
         } catch (IOException e) {
@@ -37,14 +37,14 @@ public interface PropertyLoader {
         }
     }
 
-    static PropertyLoader findLoader(Path path, List<String> profileCandidates) {
+    static PropertyLoader findLoader(Path path, List<String> profiles) {
         var lastIndex = path.getFileName().toString().lastIndexOf('.');
         if (lastIndex <= 0) {
             throw new IllegalArgumentException("no file extension");
         }
         return switch (path.getFileName().toString().substring(lastIndex + 1)) {
             case "properties" -> new PropertiesLoader(path);
-            case "yml", "yaml" -> new YamlLoader(path, profileCandidates);
+            case "yml", "yaml" -> new YamlLoader(path, profiles);
             default -> throw new IllegalArgumentException("unsupported file extension");
         };
     }
