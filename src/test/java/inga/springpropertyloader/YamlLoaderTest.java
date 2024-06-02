@@ -120,7 +120,7 @@ class YamlLoaderTest {
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "a", "value-1",
-                    "spring.config.import", "classpath:/test/fixtures/yaml-import/a.yml"
+                    "spring.config.import", "classpath:/fixtures/yaml-import/a.yml"
             ));
         }
 
@@ -130,8 +130,8 @@ class YamlLoaderTest {
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "a", "value-2",
-                    "spring.config.import[0]", "classpath:/test/fixtures/yaml-imports/a.yml",
-                    "spring.config.import[1]", "classpath:/test/fixtures/yaml-imports/b.yml"
+                    "spring.config.import[0]", "classpath:/fixtures/yaml-imports/a.yml",
+                    "spring.config.import[1]", "classpath:/fixtures/yaml-imports/b.yml"
             ));
         }
 
@@ -141,8 +141,8 @@ class YamlLoaderTest {
                     .getProperties();
             assertThat(actual).isEqualTo(Map.of(
                     "a", "value-2",
-                    "spring.config.import[0]", "classpath:/test/fixtures/yaml-imports-flat/a.yml",
-                    "spring.config.import[1]", "classpath:/test/fixtures/yaml-imports-flat/b.yml"
+                    "spring.config.import[0]", "classpath:/fixtures/yaml-imports-flat/a.yml",
+                    "spring.config.import[1]", "classpath:/fixtures/yaml-imports-flat/b.yml"
             ));
         }
     }

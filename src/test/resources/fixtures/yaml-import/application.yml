@@ -1,4 +1,4 @@
 spring:
   config:
-    import: classpath:/test/fixtures/yaml-import/a.yml
+    import: classpath:/fixtures/yaml-import/a.yml
 a: value-0

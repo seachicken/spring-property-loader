@@ -1,6 +1,6 @@
 spring:
   config:
     import:
-      - classpath:/test/fixtures/yaml-imports/a.yml
-      - classpath:/test/fixtures/yaml-imports/b.yml
+      - classpath:/fixtures/yaml-imports/a.yml
+      - classpath:/fixtures/yaml-imports/b.yml
 a: value-0

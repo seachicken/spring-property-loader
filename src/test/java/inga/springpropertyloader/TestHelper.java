@@ -1,9 +1,10 @@
 package inga.springpropertyloader;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class TestHelper {
     public static Path getFixturesPath(String path) {
-        return Path.of(TestHelper.class.getClassLoader().getResource("fixtures/" + path).getFile());
+        return Paths.get("src", "test", "resources", "fixtures", path).toAbsolutePath();
     }
 }
