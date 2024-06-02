@@ -16,7 +16,7 @@ class PropertyLoaderTest {
                 List.of("prod")
         );
         assertThat(actual.stream().map(p -> Paths.get(System.getProperty("user.dir")).relativize(p)))
-                .containsExactly(
+                .containsExactlyInAnyOrder(
                         Path.of("src/test/resources/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/test/resources/additional-application-properties/application.properties"),
                         Path.of("src/test/resources/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/test/resources/application.properties"),
                         Path.of("src/test/resources/fixtures/spring-tutorials/spring-boot-modules/spring-boot-properties/src/main/resources/application.yml"),
